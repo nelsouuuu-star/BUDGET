@@ -243,6 +243,33 @@ nav {
 
   </div>
 </nav>
+  <script>
+const monthSelect = document.querySelector('.month-select');
+
+let budgets = JSON.parse(localStorage.getItem('budgets')) || {
+  'Septembre 2026': 2000,
+  'Octobre 2026': 2000,
+  'Novembre 2026': 2000,
+  'Décembre 2026': 2000,
+  'Janvier 2027': 2000
+};
+
+function afficherBudget() {
+  const mois = monthSelect.value;
+  const budget = budgets[mois] || 0;
+
+  document.querySelector('.balance h2').textContent =
+    budget.toLocaleString('fr-FR') + ' €';
+
+  document.querySelector('.card:nth-child(2) strong').textContent =
+    budget.toLocaleString('fr-FR') + ' €';
+}
+
+monthSelect.addEventListener('change', afficherBudget);
+
+afficherBudget();
+</script>
+  
 
 </body>
 </html>
