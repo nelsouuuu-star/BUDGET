@@ -185,6 +185,7 @@ nav {
     <small>Budget restant</small>
     <h2>1 240 €</h2>
     <small>sur 2 000 €</small>
+    <button id="editBudget">Modifier le budget</button>
 
     <div class="progress">
       <div></div>
@@ -257,16 +258,38 @@ let budgets = JSON.parse(localStorage.getItem('budgets')) || {
 function afficherBudget() {
   const mois = monthSelect.value;
   const budget = budgets[mois] || 0;
+   const depense = 760;
+ const restant = budget - depense;
 
   document.querySelector('.balance h2').textContent =
-    budget.toLocaleString('fr-FR') + ' €';
+    restant.toLocaleString('fr-FR') + ' €';
+  document.querySelector('.balance small:nth-of-type(2)').textContent =
+  'sur ' + budget.toLocaleString('fr-FR') + ' €';
 
   document.querySelector('.card:nth-child(2) strong').textContent =
     budget.toLocaleString('fr-FR') + ' €';
 }
 
 monthSelect.addEventListener('change', afficherBudget);
+    
+document.querySelector('#editBudget').onclick = function() {
+  const mois = monthSelect.value;
+  const montant = prompt('Budget pour ' + mois + ' :', budgets[mois]);
 
+  if (montant === null) return;
+
+  const nouveauBudget = Number(montant.replace(',', '.'));
+
+  if (isNaN(nouveauBudget) || nouveauBudget < 0) {
+    alert('Entre un montant valide.');
+    return;
+  }
+
+  budgets[mois] = nouveauBudget;
+  localStorage.setItem('budgets', JSON.stringify(budgets));
+
+  afficherBudget();
+};
 afficherBudget();
 </script>
   
