@@ -325,8 +325,8 @@ function afficherTransactions() {
   const liste = document.getElementById("transactionList");
 
   const moisTransactions = transactions.filter(t =>
-    t.date.startsWith(month)
-  );
+  t.month === month
+);
 
   if (moisTransactions.length === 0) {
     liste.innerHTML = `
