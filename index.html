@@ -246,7 +246,13 @@ nav{
     <option value="2026-12">Décembre 2026</option>
     <option value="2027-01">Janvier 2027</option>
   </select>
-
+<select id="categorySelect" class="month-select">
+  <option value="Courses">Courses</option>
+  <option value="Restaurants">Restaurants</option>
+  <option value="Loisirs">Loisirs</option>
+  <option value="Transport">Transport</option>
+  <option value="Autres">Autres</option>
+</select>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:25px;">
     <button id="addIncome" style="border:1px solid #d9e5ff;background:#edf3ff;color:#4776e6;border-radius:14px;padding:16px;font-size:15px;font-weight:600;">
       + Entrée d'argent
@@ -439,11 +445,7 @@ afficherTransactions();
 };
   document.getElementById('addExpense').onclick = function() {
 
-  const categorie = prompt(
-    'Catégorie : Courses, Restaurants, Loisirs, Transport ou Autres ?'
-  );
-
-  if (categorie === null) return;
+  const categorie = document.getElementById('categorySelect').value;
 
   const montant = prompt('Montant de la dépense :');
 
