@@ -274,7 +274,7 @@ nav{
 </nav>
 
 <script>
-const transactions = [];
+let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
 
 function euro(value){
   return Number(value).toLocaleString("fr-FR",{
@@ -320,9 +320,35 @@ function updateBudget(){
   document.getElementById("progressBar").style.width =
     Math.min(percent,100) + "%";
 }
+function afficherTransactions() {
+  const month = document.getElementById("monthSelect").value;
+  const liste = document.getElementById("transactionList");
 
+  const moisTransactions = transactions.filter(t =>
+    t.date.startsWith(month)
+  );
+
+  if (moisTransactions.length === 0) {
+    liste.innerHTML = `
+      <div style="background:white;border:1px solid #e7e9ed;border-radius:16px;padding:30px 20px;text-align:center;color:#858a94;">
+        Aucune transaction ce mois-ci
+      </div>
+    `;
+    return;
+  }
+
+  liste.innerHTML = moisTransactions.map(t => `
+    <div style="background:white;border-bottom:1px solid #eee;padding:16px 10px;display:flex;justify-content:space-between;">
+      <span>${t.category}</span>
+      <strong>${t.type === "income" ? "+" : "-"} ${euro(t.amount)}</strong>
+    </div>
+  `).join("");
+}
 document.getElementById("monthSelect")
-  .addEventListener("change",updateBudget);
+  .addEventListener("change", function() {
+  updateBudget();
+  afficherTransactions();
+});
 
 updateBudget();
   const budgetPage = document.querySelector('.app');
@@ -348,6 +374,67 @@ document.getElementById('navBudget').onclick = function() {
 
   document.getElementById('navTransactions').classList.remove('active');
   document.getElementById('navBudget').classList.add('active');
+};
+  document.getElementById('addIncome').onclick = function() {
+  const type = prompt('Type de revenu : Salaire ou Autre ?');
+
+  if (type === null) return;
+
+  const montant = prompt('Montant reçu :');
+
+  if (montant === null) return;
+
+  const valeur = Number(montant.replace(',', '.'));
+
+  if (isNaN(valeur) || valeur <= 0) {
+    alert('Entre un montant valide.');
+    return;
+  }
+
+  transactions.push({
+  type: 'income',
+  category: type,
+  amount: valeur,
+  month: document.getElementById('monthSelect').value,
+  date: new Date().toISOString().slice(0, 10)
+});
+
+localStorage.setItem('transactions', JSON.stringify(transactions));
+
+updateBudget();
+afficherTransactions();
+};
+  document.getElementById('addExpense').onclick = function() {
+
+  const categorie = prompt(
+    'Catégorie : Courses, Restaurants, Loisirs, Transport ou Autres ?'
+  );
+
+  if (categorie === null) return;
+
+  const montant = prompt('Montant de la dépense :');
+
+  if (montant === null) return;
+
+  const valeur = Number(montant.replace(',', '.'));
+
+  if (isNaN(valeur) || valeur <= 0) {
+    alert('Entre un montant valide.');
+    return;
+  }
+
+  transactions.push({
+    type: 'expense',
+    category: categorie,
+    amount: valeur,
+    month: document.getElementById('monthSelect').value,
+    date: document.getElementById('monthSelect').value + '-01'
+  });
+
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+
+  updateBudget();
+  afficherTransactions();
 };
 </script>
 
