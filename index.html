@@ -293,7 +293,7 @@ function updateBudget(){
   );
 
   const salary = monthTransactions
-    .filter(t => t.type === "income" && t.category === "Salaire")
+    .filter(t => t.type === "income" && t.category.toLowerCase() === "salaire")
     .reduce((total,t) => total + t.amount,0);
 
   const otherIncome = monthTransactions
