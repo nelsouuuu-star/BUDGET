@@ -321,7 +321,7 @@ function updateBudget(){
     Math.min(percent,100) + "%";
 }
 function afficherTransactions() {
-  const month = document.getElementById("monthSelect").value;
+  const month = document.getElementById("transactionMonth").value;
   const liste = document.getElementById("transactionList");
 
   const moisTransactions = transactions.filter(t =>
@@ -377,6 +377,10 @@ document.getElementById("monthSelect")
   updateBudget();
   afficherTransactions();
 });
+  document.getElementById("transactionMonth")
+  .addEventListener("change", function() {
+    afficherTransactions();
+  });
 
 updateBudget();
   const budgetPage = document.querySelector('.app');
