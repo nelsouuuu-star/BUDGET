@@ -234,12 +234,42 @@ nav{
   </div>
 
 </div>
+  <div id="transactionsPage" style="display:none;">
+
+  <h1>Transactions</h1>
+  <div class="subtitle">Toutes vos entrées et dépenses</div>
+
+  <select class="month-select" id="transactionMonth">
+    <option value="2026-09">Septembre 2026</option>
+    <option value="2026-10">Octobre 2026</option>
+    <option value="2026-11">Novembre 2026</option>
+    <option value="2026-12">Décembre 2026</option>
+    <option value="2027-01">Janvier 2027</option>
+  </select>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:25px;">
+    <button id="addIncome" style="border:1px solid #d9e5ff;background:#edf3ff;color:#4776e6;border-radius:14px;padding:16px;font-size:15px;font-weight:600;">
+      + Entrée d'argent
+    </button>
+
+    <button id="addExpense" style="border:1px solid #e5e7eb;background:white;color:#17191c;border-radius:14px;padding:16px;font-size:15px;font-weight:600;">
+      − Dépense
+    </button>
+  </div>
+
+  <div id="transactionList">
+    <div style="background:white;border:1px solid #e7e9ed;border-radius:16px;padding:30px 20px;text-align:center;color:#858a92;">
+      Aucune transaction ce mois-ci
+    </div>
+  </div>
+
+</div>
 
 <nav>
   <div class="nav-inner">
-    <div class="nav-item active">Budget</div>
-    <div class="nav-item">Transactions</div>
-    <div class="nav-item">Commun</div>
+   <div class="nav-item active" id="navBudget">Budget</div>
+<div class="nav-item" id="navTransactions">Transactions</div>
+<div class="nav-item" id="navCommon">Commun</div>
   </div>
 </nav>
 
