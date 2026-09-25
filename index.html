@@ -325,6 +325,30 @@ document.getElementById("monthSelect")
   .addEventListener("change",updateBudget);
 
 updateBudget();
+  const budgetPage = document.querySelector('.app');
+const transactionsPage = document.getElementById('transactionsPage');
+
+document.getElementById('navTransactions').onclick = function() {
+  Array.from(budgetPage.children).forEach(el => {
+    if (el !== transactionsPage) el.style.display = 'none';
+  });
+
+  transactionsPage.style.display = 'block';
+
+  document.getElementById('navBudget').classList.remove('active');
+  document.getElementById('navTransactions').classList.add('active');
+};
+
+document.getElementById('navBudget').onclick = function() {
+  Array.from(budgetPage.children).forEach(el => {
+    if (el !== transactionsPage) el.style.display = '';
+  });
+
+  transactionsPage.style.display = 'none';
+
+  document.getElementById('navTransactions').classList.remove('active');
+  document.getElementById('navBudget').classList.add('active');
+};
 </script>
 
 </body>
