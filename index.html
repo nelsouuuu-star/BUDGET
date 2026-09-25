@@ -337,12 +337,40 @@ function afficherTransactions() {
     return;
   }
 
-  liste.innerHTML = moisTransactions.map(t => `
-    <div style="background:white;border-bottom:1px solid #eee;padding:16px 10px;display:flex;justify-content:space-between;">
-      <span>${t.category}</span>
+  liste.innerHTML = moisTransactions.map((t, index) => `
+  <div style="background:white;border-bottom:1px solid #eee;padding:16px 10px;display:flex;justify-content:space-between;align-items:center;">
+    <span>${t.category}</span>
+
+    <div style="display:flex;align-items:center;gap:15px;">
       <strong>${t.type === "income" ? "+" : "-"} ${euro(t.amount)}</strong>
+
+      <button onclick="supprimerTransaction('${t.date}', '${t.category}', ${t.amount})"
+        style="border:1px solid #ddd;background:white;border-radius:8px;padding:7px 12px;cursor:pointer;">
+        Supprimer
+      </button>
     </div>
-  `).join("");
+  </div>
+`).join("");
+}
+
+ function supprimerTransaction(date, category, amount) {
+  const confirmation = confirm("Supprimer cette transaction ?");
+
+  if (!confirmation) return;
+
+  const index = transactions.findIndex(t =>
+    t.date === date &&
+    t.category === category &&
+    t.amount === amount
+  );
+
+  if (index !== -1) {
+    transactions.splice(index, 1);
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+
+    updateBudget();
+    afficherTransactions();
+  }
 }
 document.getElementById("monthSelect")
   .addEventListener("change", function() {
